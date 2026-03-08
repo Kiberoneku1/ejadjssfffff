@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>С 8 марта, мама! 💐</title>
+    <style>
+        /* Сброс и базовые стили */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none; /* Скрываем стандартный курсор */
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(145deg, #ffdde1 0%, #fff0cb 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Параллакс фон (движется при движении мыши) */
+        .parallax-bg {
+            position: fixed;
+            top: -20px;
+            left: -20px;
+            right: -20px;
+            bottom: -20px;
+            background: radial-gradient(circle at 30% 50%, rgba(255, 215, 215, 0.6) 0%, rgba(255, 255, 200, 0.4) 70%),
+                        repeating-linear-gradient(45deg, rgba(255, 192, 203, 0.2) 0px, rgba(255, 192, 203, 0.2) 20px, rgba(255, 255, 0, 0.1) 20px, rgba(255, 255, 0, 0.1) 40px);
+            filter: blur(30px);
+            z-index: -2;
+            transition: transform 0.1s ease-out;
+            pointer-events: none;
+        }
+
+        /* Кастомный курсор-кружок */
+        .cursor {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff69b4, #ffd700, #ffb6c1, #ffff00);
+            background-size: 300% 300%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: screen;
+            box-shadow: 0 0 20px rgba(255, 105, 180, 0.7), 0 0 40px rgba(255, 215, 0, 0.5);
+            animation: cursorColorShift 3s infinite alternate, cursorPulse 1.5s infinite;
+            transition: transform 0.1s linear;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes cursorColorShift {
+            0% { background-position: 0% 0%; filter: hue-rotate(0deg); }
+            50% { background-position: 100% 100%; filter: hue-rotate(30deg); }
+            100% { background-position: 0% 0%; filter: hue-rotate(-30deg); }
+        }
+
+        @keyframes cursorPulse {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.9; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.7; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 0.9; }
+        }
+
+        /* Контейнер */
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            text-align: center;
+            z-index: 10;
+            position: relative;
+        }
+
+        /* Заголовок */
+        h1 {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            color: #b33b5c;
+            text-shadow: 4px 4px 0 #ffeb99, 6px 6px 20px rgba(255, 105, 180, 0.4);
+            margin-bottom: 0.5rem;
+            animation: floatTitle 3s ease-in-out infinite;
+            letter-spacing: 2px;
+        }
+
+        @keyframes floatTitle {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        p {
+            font-size: 1.4rem;
+            color: #d44e7a;
+            background: rgba(255, 240, 245, 0.7);
+            backdrop-filter: blur(5px);
+            display: inline-block;
+            padding: 10px 30px;
+            border-radius: 50px;
+            box-shadow: 0 5px 20px rgba(255, 182, 193, 0.5);
+            margin: 20px 0 30px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        /* Сетка карточек */
+        .cards-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        /* Карточки с параллакс-эффектом при наведении */
+        .card {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(12px);
+            border-radius: 30px;
+            padding: 30px 25px;
+            width: 280px;
+            box-shadow: 0 20px 40px rgba(255, 140, 200, 0.3), 0 0 0 2px rgba(255, 215, 0, 0.3) inset;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: box-shadow 0.3s ease;
+            transform-style: preserve-3d;
+            transform: perspective(500px) rotateX(0deg) rotateY(0deg);
+            will-change: transform;
+            color: #4a2a3b;
+        }
+
+        .card:hover {
+            box-shadow: 0 30px 60px rgba(255, 105, 180, 0.5), 0 0 0 3px rgba(255, 215, 0, 0.6) inset;
+        }
+
+        .card h3 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #ff69b4, #ffaa00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 2px 2px 10px rgba(255, 200, 0, 0.3);
+        }
+
+        .card p {
+            font-size: 1.1rem;
+            background: transparent;
+            backdrop-filter: none;
+            box-shadow: none;
+            padding: 0;
+            margin: 0;
+            color: #6b3f5c;
+        }
+
+        /* Кнопка */
+        .surprise-btn {
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4, #ffd700);
+            background-size: 200% 200%;
+            border: none;
+            color: #5e2e44;
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding: 15px 40px;
+            border-radius: 60px;
+            cursor: none;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.5), 0 0 20px #ffb6c1;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin: 20px 0 30px;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            letter-spacing: 2px;
+            animation: btnGradient 3s ease infinite;
+        }
+
+        @keyframes btnGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .surprise-btn:hover {
+            transform: scale(1.07) translateY(-5px);
+            box-shadow: 0 20px 40px #ff69b4, 0 0 30px #ffd700;
+        }
+
+        /* Блок сюрприза (скрыт изначально) */
+        .surprise-content {
+            background: rgba(255, 240, 245, 0.8);
+            backdrop-filter: blur(8px);
+            border-radius: 50px;
+            padding: 30px;
+            margin: 30px auto;
+            max-width: 500px;
+            border: 3px dashed #ffaa00;
+            box-shadow: 0 0 50px rgba(255, 192, 203, 0.7);
+            display: none;
+            transform: scale(0.9);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .surprise-content.show {
+            display: block;
+            animation: popSurprise 0.6s forwards;
+        }
+
+        @keyframes popSurprise {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .surprise-content h2 {
+            font-size: 2.5rem;
+            color: #d44e7a;
+            margin-bottom: 15px;
+        }
+
+        .surprise-content p {
+            font-size: 1.4rem;
+            background: none;
+            backdrop-filter: none;
+            box-shadow: none;
+            color: #b33b5c;
+        }
+
+        .surprise-content img {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.5);
+        }
+
+        /* Дополнительные декоративные элементы */
+        .flower {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.4;
+            animation: rotateFlower 10s linear infinite;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        @keyframes rotateFlower {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Адаптация */
+        @media (max-width: 600px) {
+            .cursor {
+                display: none; /* На мобильных отключаем кастомный курсор */
+            }
+            body {
+                cursor: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Параллакс слой фона -->
+    <div class="parallax-bg" id="parallaxBg"></div>
+
+    <!-- Кастомный курсор -->
+    <div class="cursor" id="cursor"></div>
+
+    <!-- Цветочки для украшения (абсолютные) -->
+    <div class="flower" style="top: 10%; left: 5%;">🌸</div>
+    <div class="flower" style="bottom: 15%; right: 8%; animation-duration: 15s;">🌼</div>
+    <div class="flower" style="top: 20%; right: 12%; animation-duration: 20s;">🌺</div>
+    <div class="flower" style="bottom: 25%; left: 10%; animation-duration: 12s;">🌻</div>
+
+    <div class="container">
+        <h1>💐 С 8 марта, любимая мама! 💝</h1>
+        <p>Спасибо за твою бесконечную любовь и заботу</p>
+
+        <div class="cards-grid">
+            <div class="card" data-tilt>
+                <h3>🌟 Здоровья</h3>
+                <p>Чтоб не болела и радовалась каждому дню!</p>
+            </div>
+            <div class="card" data-tilt>
+                <h3>☀️ Счастья</h3>
+                <p>Пусть каждый миг дарит тепло и улыбки</p>
+            </div>
+            <div class="card" data-tilt>
+                <h3>🌷 Красоты</h3>
+                <p>Оставайся такой же прекрасной всегда</p>
+            </div>
+        </div>
+
+        <button class="surprise-btn" id="surpriseBtn">✨ Открой сюрприз ✨</button>
+
+        <div class="surprise-content" id="surpriseBlock">
+            <h2>🎉 СЮРПРИЗ! 🎉</h2>
+            <p>Ты самая лучшая мама на свете! 💖</p>
+            <p>Пусть весна подарит море цветов и радости!</p>
+            <div style="font-size: 4rem; margin: 20px 0;">🌸🌼🌷</div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // 1. Кастомный курсор
+            const cursor = document.getElementById('cursor');
+            if (cursor) {
+                document.addEventListener('mousemove', (e) => {
+                    cursor.style.left = e.clientX + 'px';
+                    cursor.style.top = e.clientY + 'px';
+                });
+            }
+
+            // 2. Параллакс фона при движении мыши
+            const bg = document.getElementById('parallaxBg');
+            if (bg) {
+                document.addEventListener('mousemove', (e) => {
+                    const x = (e.clientX / window.innerWidth - 0.5) * 20; // от -10 до 10
+                    const y = (e.clientY / window.innerHeight - 0.5) * 20;
+                    bg.style.transform = `translate(${x}px, ${y}px)`;
+                });
+            }
+
+            // 3. Параллакс-эффект для карточек (3D tilt)
+            const cards = document.querySelectorAll('.card[data-tilt]');
+            cards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left; // x внутри карточки
+                    const y = e.clientY - rect.top; // y внутри карточки
+
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+
+                    const rotateX = ((y - centerY) / centerY) * 10; // макс 10 градусов
+                    const rotateY = ((centerX - x) / centerX) * 10; // направление, чтобы было естественно
+
+                    card.style.transform = `perspective(500px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'perspective(500px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+                });
+            });
+
+            // 4. Сюрприз по кнопке
+            const btn = document.getElementById('surpriseBtn');
+            const surprise = document.getElementById('surpriseBlock');
+            if (btn && surprise) {
+                btn.addEventListener('click', () => {
+                    surprise.classList.toggle('show');
+                    // Можно добавить небольшую анимацию для кнопки
+                    btn.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        btn.style.transform = '';
+                    }, 200);
+                });
+            }
+
+            // 5. Небольшой эффект при загрузке: появление элементов
+            window.addEventListener('load', () => {
+                document.body.style.opacity = '1';
+            });
+        })();
+    </script>
+
+    <!-- Дополнительные штрихи: плавное появление всего -->
+    <style>
+        body { opacity: 0; transition: opacity 0.8s; }
+        .card, h1, p, .surprise-btn { animation: fadeUp 0.8s backwards; }
+        h1 { animation-delay: 0.1s; }
+        p { animation-delay: 0.2s; }
+        .cards-grid .card:nth-child(1) { animation-delay: 0.3s; }
+        .cards-grid .card:nth-child(2) { animation-delay: 0.4s; }
+        .cards-grid .card:nth-child(3) { animation-delay: 0.5s; }
+        .surprise-btn { animation-delay: 0.6s; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</body>
+</html>
